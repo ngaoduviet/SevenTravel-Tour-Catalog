@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   CalendarDays,
@@ -149,11 +149,12 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
   const [price, setPrice] = useState("all");
   const [sort, setSort] = useState("featured");
   const [visibleCount, setVisibleCount] = useState(8);
+  const toursSectionRef = useRef<HTMLElement>(null);
 
   const destinations = useMemo(() => ["Tất cả", ...Array.from(new Set(tours.map((tour) => tour.region).filter(Boolean)))], [tours]);
   const destinationImages = useMemo(() => Object.fromEntries(destinations.map((item) => [
     item,
-    item === "Tất cả" ? tours[0]?.imageUrl : tours.find((tour) => tour.region === item)?.imageUrl,
+    item === "Tất cả" ? "/images/seven-travel-category-logo.png" : tours.find((tour) => tour.region === item)?.imageUrl,
   ])), [destinations, tours]);
   const featuredTours = tours.filter((tour) => tour.featured).slice(0, 6);
   const filteredTours = useMemo(() => {
@@ -175,6 +176,19 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
     setVisibleCount(8);
     document.querySelector("#tat-ca-tour")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  const selectDestination = (item: string) => {
+    setDestination(item);
+    setQuery("");
+    setTime("all");
+    setPrice("all");
+    setVisibleCount(8);
+    window.requestAnimationFrame(() => {
+      toursSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
+  const listingTitle = destination === "Tất cả" ? "TẤT CẢ TOUR" : `TOUR ${destination.toLocaleUpperCase("vi")}`;
 
   return (
     <div className="catalog-page">
@@ -210,8 +224,13 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
           <div className="section-heading"><span>Đi đâu cùng Seven Travel?</span><h2 id="category-title">DANH MỤC ĐIỂM ĐẾN</h2></div>
           <div className="category-scroller">
             {destinations.map((item) => (
-              <button key={item} className={`category-item ${destination === item ? "active" : ""}`} onClick={() => { setDestination(item); setVisibleCount(8); }}>
-                <span className="category-image"><img src={destinationImages[item] || tours[0]?.imageUrl} alt="" loading="lazy" /></span><span>{item}</span>
+              <button key={item} className={`category-item ${destination === item ? "active" : ""}`} onClick={() => selectDestination(item)}>
+                {item === "Trung Quốc" ? (
+                  <span className="category-image category-flag"><img src="https://flagcdn.com/w160/cn.png" alt="Cờ Trung Quốc" loading="lazy" /></span>
+                ) : (
+                  <span className={`category-image ${item === "Tất cả" ? "category-logo" : ""}`}><img src={destinationImages[item] || tours[0]?.imageUrl} alt={item === "Tất cả" ? "Logo Seven Travel" : `Điểm đến ${item}`} loading="lazy" /></span>
+                )}
+                <span>{item}</span>
               </button>
             ))}
           </div>
@@ -222,10 +241,10 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
           <div className="tour-grid featured-grid">{featuredTours.map((tour) => <TourCard tour={tour} key={tour.tourId} />)}</div>
         </section>
 
-        <section className="all-tours-section" id="tat-ca-tour" aria-labelledby="all-tours-title">
+        <section className="all-tours-section" id="tat-ca-tour" ref={toursSectionRef} aria-labelledby="all-tours-title">
           <div className="section-shell">
             <div className="listing-header">
-              <div className="section-heading left-heading"><span>Toàn bộ hành trình đang mở bán</span><h2 id="all-tours-title">TẤT CẢ TOUR</h2><p>{filteredTours.length} chương trình phù hợp</p></div>
+              <div className="section-heading left-heading"><span>Toàn bộ hành trình đang mở bán</span><h2 id="all-tours-title">{listingTitle}</h2><p>{filteredTours.length} chương trình phù hợp</p></div>
               <Select value={sort} onValueChange={setSort}><SelectTrigger className="sort-select" aria-label="Sắp xếp tour"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="featured">Nổi bật trước</SelectItem><SelectItem value="price-asc">Giá thấp đến cao</SelectItem><SelectItem value="price-desc">Giá cao đến thấp</SelectItem><SelectItem value="newest">Tour mới nhất</SelectItem></SelectContent></Select>
             </div>
             {filteredTours.length ? (
