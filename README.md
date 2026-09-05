@@ -40,15 +40,20 @@ Mở `http://localhost:3000/sanpham`.
 
 Thay `TEN-DU-AN` bằng URL thật của dự án catalog.
 
-## Cập nhật dữ liệu tour
+## Cập nhật dữ liệu tour bằng Google Sheets
 
-Dữ liệu mẫu nằm tại `data/tours.ts`. Chỉ tour có `status: "ON"` được hiển thị. Tour có `featured: true` xuất hiện trong mục **Tour nổi bật**.
+Website đang đọc dữ liệu từ bảng **SEVEN TRAVEL – WEBSITE DATA**:
 
-Các trường đã chuẩn bị tương ứng Google Sheet:
+`https://docs.google.com/spreadsheets/d/1OXapNwR424XgCUg50G4ufCj_XLEyEqWX1JqQ7yXOOas/edit`
 
-`status`, `tour_id`, `tour_name`, `slug`, `country`, `destination`, `duration`, `departure_city`, `departure_dates`, `airline`, `price_from`, `original_price`, `tour_badge`, `featured`, `image_url`, `program_url`, `sort_order`.
+- `WEB_TOURS`: thông tin chung, ảnh và link chương trình của từng tour.
+- `WEB_SCHEDULES`: lịch khởi hành và giá, liên kết với tour bằng `tourId`.
+- Chỉ các dòng `status = ON` mới được hiển thị.
+- Dữ liệu được làm mới tối đa khoảng 5 phút sau khi Google Sheets thay đổi.
+- Link Google Docs/Drive tại `programUrl` được chuẩn hóa sang chế độ `/preview` để nhúng vào trang chi tiết.
+- `data/tours.ts` là dữ liệu dự phòng khi Google Sheets tạm thời không truy cập được.
 
-Khi có URL Google Docs/Drive/PDF, điền vào `programUrl`. Trang chi tiết sẽ tự động chuyển từ màn hình liên hệ sang khung đọc tài liệu.
+Để đổi sang bảng khác, đặt biến `GOOGLE_SHEET_ID` trong Vercel bằng ID của Google Sheets mới. Nếu không đặt, website sử dụng bảng Seven Travel nêu trên.
 
 ---
 

@@ -27,32 +27,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formatPrice, liveTours, type Tour } from "@/data/tours";
+import { formatPrice, type Tour } from "@/data/tours";
 
 const HOTLINE = "0962636688";
 const displayHotline = "0962 636 688";
-
-const destinations = [
-  "Tất cả",
-  "Trung Quốc",
-  "Hàn Quốc",
-  "Nhật Bản",
-  "Đông Nam Á",
-  "Châu Âu",
-  "Châu Úc",
-  "Tour trong nước",
-] as const;
-
-const destinationImages: Record<string, string> = {
-  "Tất cả": liveTours[0].imageUrl,
-  "Trung Quốc": liveTours.find((tour) => tour.region === "Trung Quốc")!.imageUrl,
-  "Hàn Quốc": liveTours.find((tour) => tour.region === "Hàn Quốc")!.imageUrl,
-  "Nhật Bản": liveTours.find((tour) => tour.region === "Nhật Bản")!.imageUrl,
-  "Đông Nam Á": liveTours.find((tour) => tour.region === "Đông Nam Á")!.imageUrl,
-  "Châu Âu": liveTours.find((tour) => tour.region === "Châu Âu")!.imageUrl,
-  "Châu Úc": liveTours.find((tour) => tour.region === "Châu Úc")!.imageUrl,
-  "Tour trong nước": liveTours.find((tour) => tour.region === "Tour trong nước")!.imageUrl,
-};
 
 function matchesPrice(price: number, bracket: string) {
   if (bracket === "under-10") return price < 10_000_000;
@@ -65,8 +43,10 @@ function matchesPrice(price: number, bracket: string) {
 
 function matchesTime(tour: Tour, time: string) {
   if (time === "all") return true;
-  if (time === "tet") return tour.departureDates.some((date) => date.includes("01/2027"));
-  return tour.departureDates.some((date) => date.includes(`/${time}/`));
+  const scheduleText = tour.departureDates.join(" ").toLocaleLowerCase("vi");
+  if (time === "tet") return scheduleText.includes("tết") || scheduleText.includes("01/2027") || scheduleText.includes("02/2027");
+  const month = String(Number(time));
+  return scheduleText.includes(`tháng ${month}`) || scheduleText.includes(`tháng${month}`) || scheduleText.includes(`/${time}/`);
 }
 
 function TourCard({ tour }: { tour: Tour }) {
@@ -162,7 +142,7 @@ function Footer() {
   );
 }
 
-export default function TourCatalog() {
+export default function TourCatalog({ tours }: { tours: Tour[] }) {
   const [query, setQuery] = useState("");
   const [destination, setDestination] = useState("Tất cả");
   const [time, setTime] = useState("all");
@@ -170,10 +150,15 @@ export default function TourCatalog() {
   const [sort, setSort] = useState("featured");
   const [visibleCount, setVisibleCount] = useState(8);
 
-  const featuredTours = liveTours.filter((tour) => tour.featured);
+  const destinations = useMemo(() => ["Tất cả", ...Array.from(new Set(tours.map((tour) => tour.region).filter(Boolean)))], [tours]);
+  const destinationImages = useMemo(() => Object.fromEntries(destinations.map((item) => [
+    item,
+    item === "Tất cả" ? tours[0]?.imageUrl : tours.find((tour) => tour.region === item)?.imageUrl,
+  ])), [destinations, tours]);
+  const featuredTours = tours.filter((tour) => tour.featured).slice(0, 6);
   const filteredTours = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase("vi");
-    const result = liveTours.filter((tour) => {
+    const result = tours.filter((tour) => {
       const searchable = `${tour.tourName} ${tour.destination} ${tour.country}`.toLocaleLowerCase("vi");
       const categoryMatch = destination === "Tất cả" || tour.region === destination || tour.country === destination;
       return searchable.includes(normalizedQuery) && categoryMatch && matchesTime(tour, time) && matchesPrice(tour.priceFrom, price);
@@ -184,7 +169,7 @@ export default function TourCatalog() {
       if (sort === "newest") return b.sortOrder - a.sortOrder;
       return Number(b.featured) - Number(a.featured) || a.sortOrder - b.sortOrder;
     });
-  }, [destination, price, query, sort, time]);
+  }, [destination, price, query, sort, time, tours]);
 
   const applyFilters = () => {
     setVisibleCount(8);
@@ -226,7 +211,7 @@ export default function TourCatalog() {
           <div className="category-scroller">
             {destinations.map((item) => (
               <button key={item} className={`category-item ${destination === item ? "active" : ""}`} onClick={() => { setDestination(item); setVisibleCount(8); }}>
-                <span className="category-image"><img src={destinationImages[item]} alt="" loading="lazy" /></span><span>{item}</span>
+                <span className="category-image"><img src={destinationImages[item] || tours[0]?.imageUrl} alt="" loading="lazy" /></span><span>{item}</span>
               </button>
             ))}
           </div>

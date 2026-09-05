@@ -1,3 +1,14 @@
+export type TourSchedule = {
+  status: "ON" | "OFF";
+  scheduleId: string;
+  tourId: string;
+  departureText: string;
+  price: number;
+  originalPrice?: number;
+  note?: string;
+  sortOrder: number;
+};
+
 export type Tour = {
   status: "ON" | "OFF";
   tourId: string;
@@ -18,6 +29,7 @@ export type Tour = {
   programUrl?: string;
   seatsLeft?: number;
   sortOrder: number;
+  schedules?: TourSchedule[];
 };
 
 export const tours: Tour[] = [
@@ -249,4 +261,4 @@ export const liveTours = tours
   .sort((a, b) => a.sortOrder - b.sortOrder);
 
 export const formatPrice = (value: number) =>
-  new Intl.NumberFormat("vi-VN").format(value) + "đ";
+  value > 0 ? new Intl.NumberFormat("vi-VN").format(value) + "đ" : "Liên hệ";

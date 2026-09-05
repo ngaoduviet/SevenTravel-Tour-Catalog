@@ -14,18 +14,19 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatPrice, liveTours } from "@/data/tours";
+import { getLiveTours } from "@/data/google-sheets";
+import { formatPrice } from "@/data/tours";
 
 const HOTLINE = "0962636688";
 const displayHotline = "0962 636 688";
 
-export function generateStaticParams() {
-  return liveTours.map((tour) => ({ slug: tour.slug }));
-}
+export const revalidate = 300;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const tour = liveTours.find((item) => item.slug === slug);
+  const tours = await getLiveTours();
+  const tour = tours.find((item) => item.slug === slug);
   if (!tour) return { title: "Không tìm thấy tour | Seven Travel" };
   return {
     title: `Tour ${tour.tourName} ${tour.duration.replace(" ngày ", "N").replace(" đêm", "Đ")} | Seven Travel`,
@@ -35,7 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function TourDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const tour = liveTours.find((item) => item.slug === slug);
+  const tours = await getLiveTours();
+  const tour = tours.find((item) => item.slug === slug);
   if (!tour) notFound();
 
   return (
@@ -72,8 +74,25 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
           <section className="program-layout" id="chuong-trinh">
             <article className="program-card">
               <div className="program-heading"><span><FileText /></span><div><p>Hồ sơ hành trình</p><h2>CHƯƠNG TRÌNH CHI TIẾT</h2></div></div>
+              {tour.schedules?.length ? (
+                <section className="schedule-section" aria-labelledby="schedule-title">
+                  <h3 id="schedule-title">Lịch khởi hành và giá tour</h3>
+                  <div className="schedule-table-wrap">
+                    <table className="schedule-table">
+                      <thead><tr><th>Lịch khởi hành</th><th>Giá tour</th><th>Ghi chú</th></tr></thead>
+                      <tbody>{tour.schedules.map((schedule) => (
+                        <tr key={schedule.scheduleId}>
+                          <td>{schedule.departureText}</td>
+                          <td><strong>{formatPrice(schedule.price)}</strong>{schedule.originalPrice && schedule.originalPrice > schedule.price ? <del>{formatPrice(schedule.originalPrice)}</del> : null}</td>
+                          <td>{schedule.note || "—"}</td>
+                        </tr>
+                      ))}</tbody>
+                    </table>
+                  </div>
+                </section>
+              ) : null}
               {tour.programUrl ? (
-                <div className="document-frame"><iframe title={`Chương trình ${tour.tourName}`} src={tour.programUrl} loading="lazy" /><Button asChild className="btn-navy"><a href={tour.programUrl} target="_blank" rel="noreferrer">Mở tài liệu toàn màn hình <ExternalLink /></a></Button></div>
+                <div className="document-frame"><iframe title={`Chương trình ${tour.tourName}`} src={tour.programUrl} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" /><Button asChild className="btn-navy"><a href={tour.programUrl} target="_blank" rel="noreferrer">Mở tài liệu toàn màn hình <ExternalLink /></a></Button></div>
               ) : (
                 <div className="document-placeholder">
                   <FileText />
