@@ -29,8 +29,30 @@ import {
 } from "@/components/ui/select";
 import { formatPrice, type Tour } from "@/data/tours";
 
-const HOTLINE = "0962636688";
-const displayHotline = "0962 636 688";
+const HOTLINE = "0899525777";
+const displayHotline = "089 9525 777";
+
+const CATALOG_DESTINATIONS = [
+  "Tất cả",
+  "Trung Quốc",
+  "Hàn Quốc",
+  "Nhật Bản",
+  "Đông Nam Á",
+  "Châu Âu",
+  "Châu Úc",
+  "Tour trong nước",
+] as const;
+
+const CATALOG_ICONS: Record<string, string> = {
+  "Tất cả": "/images/seven-travel-category-logo.png",
+  "Trung Quốc": "https://flagcdn.com/w160/cn.png",
+  "Hàn Quốc": "https://flagcdn.com/w160/kr.png",
+  "Nhật Bản": "https://flagcdn.com/w160/jp.png",
+  "Đông Nam Á": "https://upload.wikimedia.org/wikipedia/en/8/87/Flag_of_ASEAN.svg",
+  "Châu Âu": "https://flagcdn.com/w160/eu.png",
+  "Châu Úc": "https://flagcdn.com/w160/au.png",
+  "Tour trong nước": "https://flagcdn.com/w160/vn.png",
+};
 
 function matchesPrice(price: number, bracket: string) {
   if (bracket === "under-10") return price < 10_000_000;
@@ -128,8 +150,7 @@ function Footer() {
       <div className="footer-grid">
         <div className="footer-brand">
           <img src="/images/seven-travel-logo-white.png" alt="Seven Travel" />
-          <h3>CÔNG TY TNHH SEVENTRAVEL</h3>
-          <p>28A Dương Khuê, Mai Dịch, Cầu Giấy, Hà Nội</p>
+          <h3>CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ NGAO DU VIỆT</h3>
           <a href={`tel:${HOTLINE}`}>Hotline: {displayHotline}</a>
           <a href="mailto:info@seventravel.vn">Email: info@seventravel.vn</a>
         </div>
@@ -150,11 +171,15 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
   const [sort, setSort] = useState("featured");
   const [visibleCount, setVisibleCount] = useState(8);
   const toursSectionRef = useRef<HTMLElement>(null);
+  const consultSectionRef = useRef<HTMLElement>(null);
 
-  const destinations = useMemo(() => ["Tất cả", ...Array.from(new Set(tours.map((tour) => tour.region).filter(Boolean)))], [tours]);
+  const destinations = useMemo(() => Array.from(new Set([
+    ...CATALOG_DESTINATIONS,
+    ...tours.map((tour) => tour.region).filter(Boolean),
+  ])), [tours]);
   const destinationImages = useMemo(() => Object.fromEntries(destinations.map((item) => [
     item,
-    item === "Tất cả" ? "/images/seven-travel-category-logo.png" : tours.find((tour) => tour.region === item)?.imageUrl,
+    CATALOG_ICONS[item] || tours.find((tour) => tour.region === item)?.imageUrl,
   ])), [destinations, tours]);
   const featuredTours = tours.filter((tour) => tour.featured).slice(0, 6);
   const filteredTours = useMemo(() => {
@@ -178,13 +203,15 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
   };
 
   const selectDestination = (item: string) => {
+    const hasTourData = item === "Tất cả" || tours.some((tour) => tour.region === item || tour.country === item);
     setDestination(item);
     setQuery("");
     setTime("all");
     setPrice("all");
     setVisibleCount(8);
     window.requestAnimationFrame(() => {
-      toursSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const target = hasTourData ? toursSectionRef.current : consultSectionRef.current;
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   };
 
@@ -225,11 +252,9 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
           <div className="category-scroller">
             {destinations.map((item) => (
               <button key={item} className={`category-item ${destination === item ? "active" : ""}`} onClick={() => selectDestination(item)}>
-                {item === "Trung Quốc" ? (
-                  <span className="category-image category-flag"><img src="https://flagcdn.com/w160/cn.png" alt="Cờ Trung Quốc" loading="lazy" /></span>
-                ) : (
-                  <span className={`category-image ${item === "Tất cả" ? "category-logo" : ""}`}><img src={destinationImages[item] || tours[0]?.imageUrl} alt={item === "Tất cả" ? "Logo Seven Travel" : `Điểm đến ${item}`} loading="lazy" /></span>
-                )}
+                <span className={`category-image ${item === "Tất cả" ? "category-logo" : "category-flag"}`}>
+                  <img src={destinationImages[item] || tours[0]?.imageUrl} alt={item === "Tất cả" ? "Logo Seven Travel" : `Cờ ${item}`} loading="lazy" />
+                </span>
                 <span>{item}</span>
               </button>
             ))}
@@ -255,7 +280,7 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
           </div>
         </section>
 
-        <section className="consult-banner">
+        <section className="consult-banner" id="tu-van-tour" ref={consultSectionRef}>
           <div><span>Chưa biết nên chọn hành trình nào?</span><h2>BẠN CẦN TƯ VẤN TOUR PHÙ HỢP?</h2><p>Đội ngũ Seven Travel luôn sẵn sàng hỗ trợ bạn.</p></div>
           <div className="consult-actions"><Button asChild className="btn-orange"><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer"><MessageCircle />Nhận tư vấn ngay</a></Button><a href={`tel:${HOTLINE}`}><Phone /> Hotline: {displayHotline}</a></div>
         </section>

@@ -17,8 +17,8 @@ import { Button } from "@/components/ui/button";
 import { getLiveTours } from "@/data/google-sheets";
 import { formatPrice } from "@/data/tours";
 
-const HOTLINE = "0962636688";
-const displayHotline = "0962 636 688";
+const HOTLINE = "0899525777";
+const displayHotline = "089 9525 777";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -125,7 +125,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
         </section>
       </main>
 
-      <footer className="site-footer compact-footer"><div className="compact-footer-inner"><img src="/images/seven-travel-logo-white.png" alt="Seven Travel" /><p>CÔNG TY TNHH SEVENTRAVEL · 28A Dương Khuê, Mai Dịch, Cầu Giấy, Hà Nội</p><p>© {new Date().getFullYear()} Seven Travel. All rights reserved.</p></div></footer>
+      <footer className="site-footer compact-footer"><div className="compact-footer-inner"><img src="/images/seven-travel-logo-white.png" alt="Seven Travel" /><p>CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ NGAO DU VIỆT</p><p>© {new Date().getFullYear()} Seven Travel. All rights reserved.</p></div></footer>
       <div className="mobile-bottom-bar"><a href={`tel:${HOTLINE}`}><Phone />Gọi tư vấn</a><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer"><MessageCircle />Zalo</a><a href="#chuong-trinh"><FileText />Chương trình</a></div>
     </div>
   );
