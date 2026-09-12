@@ -122,7 +122,6 @@ function BrandHeader() {
     ["Tour Trung Quốc", "https://www.seventravel.vn/#tours"],
     ["Tour Hội chợ", "https://www.seventravel.vn/cantonfair"],
     ["Sản phẩm HOT", "https://www.seventravel.vn/sanpham"],
-    ["Cẩm nang", "https://www.seventravel.vn/#stories"],
     ["Về chúng tôi", "https://www.seventravel.vn/#trust"],
   ];
 
@@ -133,7 +132,7 @@ function BrandHeader() {
         <nav className="desktop-nav" aria-label="Điều hướng chính">{links.map(([label, href]) => <a className={label === "Sản phẩm HOT" ? "active" : undefined} href={href} key={label}>{label}</a>)}</nav>
         <div className="header-actions">
           <a className="hotline" href={`tel:${HOTLINE}`}><Phone /><span><small>HOTLINE</small>{displayHotline}</span></a>
-          <Button asChild className="btn-primary header-consult"><a href="#lien-he">Nhận tư vấn</a></Button>
+          <Button asChild className="btn-navy header-consult"><a href="#lien-he">Nhận tư vấn</a></Button>
         </div>
         <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Mở menu">{open ? <X /> : <Menu />}</button>
       </div>

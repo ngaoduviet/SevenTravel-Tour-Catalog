@@ -17,6 +17,8 @@
 - Sửa icon `Đông Nam Á` bằng biểu trưng ASEAN lưu nội bộ.
 - Lưu toàn bộ icon danh mục trong `public/images/catalog/`, không còn phụ thuộc link ảnh ngoài.
 - Cân lại logo, bộ lọc, thẻ tour và footer trên máy tính, máy tính bảng và điện thoại.
+- Tăng kích thước hiển thị logo Header, bỏ mục `Cẩm nang` và chuyển hotline/nút `Nhận tư vấn` sang màu navy thương hiệu.
+- Đồng bộ chiều cao vùng tên tour, thông tin, giá, tiện ích và nút thao tác để các thẻ sản phẩm thẳng hàng.
 - Giữ nguyên luồng đọc tour và lịch khởi hành từ Google Sheets.
 
 Không cần tạo lại Google Sheet, Apps Script hay biến môi trường. File `data/google-sheets.ts` được giữ nguyên so với mã nguồn gốc.
