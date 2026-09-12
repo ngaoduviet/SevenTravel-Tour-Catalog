@@ -44,15 +44,17 @@ const CATALOG_DESTINATIONS = [
 ] as const;
 
 const CATALOG_ICONS: Record<string, string> = {
-  "Tất cả": "/images/seven-travel-category-logo.png",
-  "Trung Quốc": "https://flagcdn.com/w160/cn.png",
-  "Hàn Quốc": "https://flagcdn.com/w160/kr.png",
-  "Nhật Bản": "https://flagcdn.com/w160/jp.png",
-  "Đông Nam Á": "https://upload.wikimedia.org/wikipedia/en/8/87/Flag_of_ASEAN.svg",
-  "Châu Âu": "https://flagcdn.com/w160/eu.png",
-  "Châu Úc": "https://flagcdn.com/w160/au.png",
-  "Tour trong nước": "https://flagcdn.com/w160/vn.png",
+  "Tất cả": "/images/catalog/seven-travel-all.png",
+  "Trung Quốc": "/images/catalog/china.png",
+  "Hàn Quốc": "/images/catalog/korea.png",
+  "Nhật Bản": "/images/catalog/japan.png",
+  "Đông Nam Á": "/images/catalog/asean.png",
+  "Châu Âu": "/images/catalog/europe.png",
+  "Châu Úc": "/images/catalog/australia.png",
+  "Tour trong nước": "/images/catalog/vietnam.png",
 };
+
+const isAvailable = (value: string) => Boolean(value.trim()) && value !== "Đang cập nhật";
 
 function matchesPrice(price: number, bracket: string) {
   if (bracket === "under-10") return price < 10_000_000;
@@ -72,6 +74,8 @@ function matchesTime(tour: Tour, time: string) {
 }
 
 function TourCard({ tour }: { tour: Tour }) {
+  const departureSummary = tour.departureDates.slice(0, 2).join(" • ");
+
   return (
     <article className="tour-card">
       <div className="tour-card-media">
@@ -87,13 +91,13 @@ function TourCard({ tour }: { tour: Tour }) {
           <h3>{tour.tourName}</h3>
         </div>
         <div className="tour-facts">
-          <span><Clock3 />{tour.duration}</span>
+          {isAvailable(tour.duration) ? <span><Clock3 />{tour.duration}</span> : null}
           <span><MapPin />Từ {tour.departureCity}</span>
-          <span><CalendarDays />{tour.departureDates.slice(0, 3).join(", ")}</span>
-          <span><Plane />{tour.airline}</span>
+          <span className="date-fact"><CalendarDays />{departureSummary}</span>
+          {isAvailable(tour.airline) ? <span><Plane />{tour.airline}</span> : null}
         </div>
         <div className="price-row">
-          <div><small>Giá từ</small><strong>{formatPrice(tour.priceFrom)}</strong></div>
+          <div><small>{tour.priceFrom > 0 ? "Giá từ" : "Giá tour"}</small><strong>{tour.priceFrom > 0 ? formatPrice(tour.priceFrom) : "Liên hệ"}</strong></div>
           {tour.originalPrice ? <del>{formatPrice(tour.originalPrice)}</del> : null}
         </div>
         <div className="service-icons" aria-label="Dịch vụ gồm">
@@ -103,7 +107,7 @@ function TourCard({ tour }: { tour: Tour }) {
           <span title="Hướng dẫn viên"><Headphones /></span>
         </div>
         <div className="card-actions">
-          <Button asChild className="btn-red"><Link href={`/sanpham/${tour.slug}`}>Xem chương trình</Link></Button>
+          <Button asChild className="btn-primary"><Link href={`/sanpham/${tour.slug}`}>Xem chương trình</Link></Button>
           <Button asChild className="btn-navy"><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer">Nhận tư vấn</a></Button>
         </div>
       </div>
@@ -115,21 +119,21 @@ function BrandHeader() {
   const [open, setOpen] = useState(false);
   const links = [
     ["Trang chủ", "https://www.seventravel.vn/"],
-    ["Tour nước ngoài", "#tat-ca-tour"],
-    ["Tour trong nước", "#tat-ca-tour"],
-    ["Danh sách tour", "#tat-ca-tour"],
-    ["Tin tức", "https://www.seventravel.vn/"],
-    ["Liên hệ", "#lien-he"],
+    ["Tour Trung Quốc", "https://www.seventravel.vn/#tours"],
+    ["Tour Hội chợ", "https://www.seventravel.vn/cantonfair"],
+    ["Sản phẩm HOT", "https://www.seventravel.vn/sanpham"],
+    ["Cẩm nang", "https://www.seventravel.vn/#stories"],
+    ["Về chúng tôi", "https://www.seventravel.vn/#trust"],
   ];
 
   return (
     <header className="site-header">
       <div className="header-inner">
-        <Link href="/sanpham" className="brand-link" aria-label="Seven Travel - Danh sách tour"><img src="/images/seven-travel-logo.png" alt="Seven Travel" /></Link>
-        <nav className="desktop-nav" aria-label="Điều hướng chính">{links.map(([label, href]) => <a href={href} key={label}>{label}</a>)}</nav>
+        <a href="https://www.seventravel.vn/" className="brand-link" aria-label="Seven Travel - Trang chủ"><img src="/images/seven-travel-logo.png" alt="Seven Travel" /></a>
+        <nav className="desktop-nav" aria-label="Điều hướng chính">{links.map(([label, href]) => <a className={label === "Sản phẩm HOT" ? "active" : undefined} href={href} key={label}>{label}</a>)}</nav>
         <div className="header-actions">
           <a className="hotline" href={`tel:${HOTLINE}`}><Phone /><span><small>HOTLINE</small>{displayHotline}</span></a>
-          <Button asChild className="btn-red header-consult"><a href="#lien-he">Nhận tư vấn</a></Button>
+          <Button asChild className="btn-primary header-consult"><a href="#lien-he">Nhận tư vấn</a></Button>
         </div>
         <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Mở menu">{open ? <X /> : <Menu />}</button>
       </div>
@@ -151,12 +155,11 @@ function Footer() {
         <div className="footer-brand">
           <img src="/images/seven-travel-logo-white.png" alt="Seven Travel" />
           <h3>CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ NGAO DU VIỆT</h3>
-          <a href={`tel:${HOTLINE}`}>Hotline: {displayHotline}</a>
-          <a href="mailto:info@seventravel.vn">Email: info@seventravel.vn</a>
+          <p>Khám phá thế giới — Ngao du muôn nơi.</p>
         </div>
-        <div><h3>VỀ CHÚNG TÔI</h3><a href="https://www.seventravel.vn/">Giới thiệu</a><a href="#">Tuyển dụng</a><a href="#lien-he">Liên hệ</a></div>
-        <div><h3>CHÍNH SÁCH</h3><a href="#">Chính sách bảo mật</a><a href="#">Điều khoản sử dụng</a><a href="#">Chính sách thanh toán</a></div>
-        <div><h3>KẾT NỐI</h3><a href="#">Facebook</a><a href="#">YouTube</a><a href="#">TikTok</a><a href={`https://zalo.me/${HOTLINE}`}>Zalo</a></div>
+        <div><h3>ĐIỀU HƯỚNG</h3><a href="https://www.seventravel.vn/">Trang chủ</a><a href="https://www.seventravel.vn/#tours">Tour Trung Quốc</a><a href="https://www.seventravel.vn/cantonfair">Tour Hội chợ</a><a href="https://www.seventravel.vn/sanpham">Sản phẩm HOT</a></div>
+        <div><h3>LIÊN HỆ</h3><a href={`tel:${HOTLINE}`}>Hotline: {displayHotline}</a><a href="mailto:info@seventravel.vn">info@seventravel.vn</a><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer">Zalo tư vấn 1:1</a></div>
+        <div><h3>KHÁM PHÁ TOUR</h3><a href="#tour-noi-bat">Tour nổi bật</a><a href="#tat-ca-tour">Tất cả tour</a><a href="#lien-he">Nhận tư vấn</a></div>
       </div>
       <div className="copyright">© {new Date().getFullYear()} Seven Travel. All rights reserved.</div>
     </footer>
@@ -225,11 +228,11 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
           <div className="hero-overlay" />
           <div className="hero-content">
             <p className="hero-kicker"><Sparkles /> Tour Catalog 2026–2027</p>
-            <h1 id="hero-title">KHÁM PHÁ THẾ GIỚI<br /><em>CÙNG SEVEN TRAVEL</em></h1>
-            <p className="hero-sub">Hàng trăm hành trình – Ngàn trải nghiệm</p>
-            <p>Chọn tour phù hợp và xem chương trình chi tiết chỉ trong vài giây.</p>
+            <h1 id="hero-title">SẢN PHẨM HOT<br /><em>& LỊCH KHỞI HÀNH</em></h1>
+            <p className="hero-sub">Hành trình chọn lọc cùng Seven Travel</p>
+            <p>Tìm tour theo điểm đến, thời gian và mức giá chỉ trong vài giây.</p>
             <div className="hero-actions">
-              <Button asChild className="btn-red hero-button"><a href="#tat-ca-tour">Xem tất cả tour</a></Button>
+              <Button asChild className="btn-primary hero-button"><a href="#tat-ca-tour">Xem tất cả tour</a></Button>
               <Button asChild className="btn-light hero-button"><a href="#lien-he">Nhận tư vấn</a></Button>
             </div>
           </div>
@@ -243,7 +246,7 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
             <Select value={destination} onValueChange={setDestination}><SelectTrigger className="filter-select" aria-label="Điểm đến"><SelectValue placeholder="Điểm đến" /></SelectTrigger><SelectContent>{destinations.map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}</SelectContent></Select>
             <Select value={time} onValueChange={setTime}><SelectTrigger className="filter-select" aria-label="Thời gian"><SelectValue placeholder="Thời gian" /></SelectTrigger><SelectContent><SelectItem value="all">Xem tất cả thời gian</SelectItem><SelectItem value="09">Tháng 9</SelectItem><SelectItem value="10">Tháng 10</SelectItem><SelectItem value="11">Tháng 11</SelectItem><SelectItem value="12">Tháng 12</SelectItem><SelectItem value="tet">Tết 2027</SelectItem></SelectContent></Select>
             <Select value={price} onValueChange={setPrice}><SelectTrigger className="filter-select" aria-label="Khoảng giá"><SelectValue placeholder="Khoảng giá" /></SelectTrigger><SelectContent><SelectItem value="all">Tất cả mức giá</SelectItem><SelectItem value="under-10">Dưới 10 triệu</SelectItem><SelectItem value="10-20">10–20 triệu</SelectItem><SelectItem value="20-30">20–30 triệu</SelectItem><SelectItem value="30-50">30–50 triệu</SelectItem><SelectItem value="over-50">Trên 50 triệu</SelectItem></SelectContent></Select>
-            <Button type="submit" className="btn-red filter-submit"><Search />Tìm tour</Button>
+            <Button type="submit" className="btn-primary filter-submit"><Search />Tìm tour</Button>
           </form>
         </section>
 
@@ -251,9 +254,9 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
           <div className="section-heading"><span>Đi đâu cùng Seven Travel?</span><h2 id="category-title">DANH MỤC ĐIỂM ĐẾN</h2></div>
           <div className="category-scroller">
             {destinations.map((item) => (
-              <button key={item} className={`category-item ${destination === item ? "active" : ""}`} onClick={() => selectDestination(item)}>
-                <span className={`category-image ${item === "Tất cả" ? "category-logo" : "category-flag"}`}>
-                  <img src={destinationImages[item] || tours[0]?.imageUrl} alt={item === "Tất cả" ? "Logo Seven Travel" : `Cờ ${item}`} loading="lazy" />
+              <button key={item} className={`category-item ${destination === item ? "active" : ""} ${item !== "Tất cả" && !tours.some((tour) => tour.region === item || tour.country === item) ? "unavailable" : ""}`} onClick={() => selectDestination(item)}>
+                <span className={`category-image ${item === "Tất cả" ? "category-logo" : item === "Đông Nam Á" ? "category-emblem" : "category-flag"}`}>
+                  <img src={destinationImages[item] || "/images/catalog/seven-travel-all.png"} alt={item === "Tất cả" ? "Biểu trưng Seven Travel" : item === "Đông Nam Á" ? "Biểu trưng ASEAN" : `Cờ ${item}`} loading="lazy" />
                 </span>
                 <span>{item}</span>
               </button>
@@ -261,7 +264,7 @@ export default function TourCatalog({ tours }: { tours: Tour[] }) {
           </div>
         </section>
 
-        <section className="featured-section section-shell" aria-labelledby="featured-title">
+        <section className="featured-section section-shell" id="tour-noi-bat" aria-labelledby="featured-title">
           <div className="section-heading left-heading"><span>Hành trình được yêu thích</span><h2 id="featured-title">TOUR NỔI BẬT</h2></div>
           <div className="tour-grid featured-grid">{featuredTours.map((tour) => <TourCard tour={tour} key={tour.tourId} />)}</div>
         </section>

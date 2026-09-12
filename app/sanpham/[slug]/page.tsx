@@ -29,8 +29,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const tour = tours.find((item) => item.slug === slug);
   if (!tour) return { title: "Không tìm thấy tour | Seven Travel" };
   return {
-    title: `Tour ${tour.tourName} ${tour.duration.replace(" ngày ", "N").replace(" đêm", "Đ")} | Seven Travel`,
+    title: `Tour ${tour.tourName} ${tour.duration.replace(" ngày ", "N").replace(" đêm", "Đ")}`,
     description: `Tour ${tour.tourName} ${tour.duration} cùng Seven Travel. Xem lịch khởi hành, giá tour và chương trình chi tiết.`,
+    alternates: {
+      canonical: `https://www.seventravel.vn/sanpham/${tour.slug}`,
+    },
   };
 }
 
@@ -44,7 +47,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
     <div className="detail-page">
       <header className="site-header">
         <div className="header-inner detail-header-inner">
-          <Link href="/sanpham" className="brand-link" aria-label="Seven Travel - Danh sách tour"><img src="/images/seven-travel-logo.png" alt="Seven Travel" /></Link>
+          <a href="https://www.seventravel.vn/" className="brand-link" aria-label="Seven Travel - Trang chủ"><img src="/images/seven-travel-logo.png" alt="Seven Travel" /></a>
           <nav className="detail-nav" aria-label="Điều hướng"><Link href="/sanpham">Danh sách tour</Link><a href="#chuong-trinh">Chương trình</a><a href="#lien-he">Liên hệ</a></nav>
           <a className="hotline" href={`tel:${HOTLINE}`}><Phone /><span><small>HOTLINE</small>{displayHotline}</span></a>
         </div>
@@ -66,7 +69,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 <div><MapPin /><span><small>Điểm khởi hành</small><strong>{tour.departureCity}</strong></span></div>
               </div>
               <div className="detail-price"><span>Giá tour từ</span><strong>{formatPrice(tour.priceFrom)}</strong>{tour.originalPrice ? <del>{formatPrice(tour.originalPrice)}</del> : null}</div>
-              <div className="detail-actions"><Button asChild className="btn-red"><a href={`tel:${HOTLINE}`}><Phone />Đặt tour ngay</a></Button><Button asChild className="btn-navy"><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer"><MessageCircle />Nhận tư vấn</a></Button></div>
+              <div className="detail-actions"><Button asChild className="btn-primary"><a href={`tel:${HOTLINE}`}><Phone />Đặt tour ngay</a></Button><Button asChild className="btn-navy"><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer"><MessageCircle />Nhận tư vấn</a></Button></div>
               <p className="detail-assurance"><ShieldCheck /> Tư vấn minh bạch · Xác nhận dịch vụ trước khi đặt</p>
             </div>
           </section>
@@ -98,7 +101,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                   <FileText />
                   <h3>Chương trình đang được cập nhật lên thư viện</h3>
                   <p>Nhận ngay file lịch trình, tiêu chuẩn dịch vụ và chính sách tour từ tư vấn viên Seven Travel.</p>
-                  <Button asChild className="btn-red"><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer"><MessageCircle />Nhận chương trình tour</a></Button>
+                  <Button asChild className="btn-primary"><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer"><MessageCircle />Nhận chương trình tour</a></Button>
                 </div>
               )}
             </article>
@@ -112,7 +115,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 <li><CheckCircle2 /> Hướng dẫn viên theo đoàn</li>
               </ul>
               <div className="sidebar-price"><span>Giá từ</span><strong>{formatPrice(tour.priceFrom)}</strong></div>
-              <Button asChild className="btn-red sidebar-button"><a href={`tel:${HOTLINE}`}>Đặt tour ngay</a></Button>
+              <Button asChild className="btn-primary sidebar-button"><a href={`tel:${HOTLINE}`}>Đặt tour ngay</a></Button>
               <Button asChild className="btn-navy sidebar-button"><a href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer">Nhận tư vấn</a></Button>
               <a className="sidebar-phone" href={`tel:${HOTLINE}`}><Phone />Gọi {displayHotline}</a>
             </aside>
