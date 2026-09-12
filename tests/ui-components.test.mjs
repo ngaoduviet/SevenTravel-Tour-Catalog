@@ -35,17 +35,15 @@ async function readCssTree(directory) {
   return contents.join("\n");
 }
 
-test("emits the catalog's animation and scrolling utilities", async () => {
+test("emits the catalog's brand and responsive utilities", async () => {
   const css = await readCssTree(path.join(root, "dist"));
 
-  assert.match(css, /--tw-enter-opacity/);
-  assert.match(css, /scrollbar-width:\s*thin/);
-  assert.match(css, /scrollbar-width:\s*none/);
-  assert.match(css, /scrollbar-gutter:\s*stable/);
-  assert.match(css, /scroll-fade-reveal-b/);
-  assert.match(css, /mask-image:/);
-  assert.match(css, /tw-shimmer/);
-  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /--travel-blue:\s*#0b3d6d/);
+  assert.match(css, /--sunrise-orange:\s*#ff8a00/);
+  assert.match(css, /\.category-emblem/);
+  assert.match(css, /\.category-logo/);
+  assert.match(css, /@media\s*\(width<=640px\)/);
+  assert.match(css, /\.footer-grid/);
 });
 
 test("forwards progress semantics to the primitive", async () => {
