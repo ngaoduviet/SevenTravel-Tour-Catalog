@@ -65,7 +65,7 @@ const itinerary = [
     day: "Ngày 1",
     route: "Hà Nội – Cáp Nhĩ Tân",
     meals: "Suất ăn sân bay",
-    image: "/images/cap-nhi-tan/harbin-ice-world.jpg",
+    image: "/images/cap-nhi-tan/day-1-harbin-welcome.jpg",
     content: [
       "15:25, xe và hướng dẫn viên đón đoàn tại điểm hẹn ở Hà Nội, di chuyển ra sân bay Nội Bài.",
       "Đáp chuyến bay thẳng VJ7358 HAN – HRB lúc 19:25–01:00+1. Seven Travel chuẩn bị suất cơm hộp dùng tại sân bay.",
@@ -75,7 +75,7 @@ const itinerary = [
     day: "Ngày 2",
     route: "Cáp Nhĩ Tân – Yabuli – Làng Tuyết",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/yabuli-ski.jpg",
+    image: "/images/cap-nhi-tan/day-2-yabuli-ski.jpg",
     content: [
       "Đến Cáp Nhĩ Tân, làm thủ tục nhập cảnh và về khách sạn nghỉ ngơi trước khi bắt đầu hành trình.",
       "Ghé khu chợ gần Nhà thờ Saint Sophia để tham quan và chuẩn bị thêm trang phục giữ ấm.",
@@ -99,7 +99,7 @@ const itinerary = [
     day: "Ngày 4",
     route: "Tuyết Hương – Cáp Nhĩ Tân",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/saint-sophia.jpg",
+    image: "/images/cap-nhi-tan/day-4-saint-sophia.jpg",
     content: [
       "Tham quan Thập Lí Hoạ Lang và khu vườn thú trên núi cao giữa cảnh quan băng giá.",
       "Ngắm Cầu sắt Trung Đông và sông băng Tùng Hoa.",
@@ -111,7 +111,7 @@ const itinerary = [
     day: "Ngày 5",
     route: "Volga Manor – Đại Thế Giới Băng Tuyết",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/snowman-square.jpg",
+    image: "/images/cap-nhi-tan/harbin-ice-world.jpg",
     content: [
       "Khám phá Trang viên Volga, thưởng thức đồ ăn nhẹ kiểu Nga và rượu Vodka.",
       "Trải nghiệm trượt phao tuyết từ lâu đài xuống đường tuyết tại Trang viên Volga.",
@@ -338,9 +338,11 @@ export default function HarbinSpecialPage() {
           <h2 id="gallery-title">Cáp Nhĩ Tân qua những trải nghiệm thật</h2>
         </div>
         <div className={styles.gallery}>
-          <figure className={styles.galleryWide}><img src="/images/cap-nhi-tan/seven-travel-group.jpg" alt="Đoàn khách chụp ảnh cùng người tuyết tại Cáp Nhĩ Tân" loading="lazy" /><figcaption>Niềm vui chung giữa mùa tuyết</figcaption></figure>
-          <figure><img src="/images/cap-nhi-tan/guest-snow-village.jpg" alt="Du khách trải nghiệm không gian tuyết phương Bắc" loading="lazy" /><figcaption>Một mùa đông đáng nhớ</figcaption></figure>
-          <figure><img src="/images/cap-nhi-tan/harbin-ice-world.jpg" alt="Đại Thế Giới Băng Tuyết tại Cáp Nhĩ Tân" loading="lazy" /><figcaption>Thế giới điêu khắc băng</figcaption></figure>
+          <figure className={styles.galleryWide}><img src="/images/cap-nhi-tan/gallery-group.jpg" alt="Đoàn khách check-in tại Cáp Nhĩ Tân vào mùa đông" loading="lazy" /><figcaption>Hành trình đáng nhớ cùng cả đoàn</figcaption></figure>
+          <figure><img src="/images/cap-nhi-tan/gallery-ice-wheel.jpg" alt="Du khách check-in bên vòng quay và công trình băng tuyết" loading="lazy" /><figcaption>Check-in giữa thế giới băng tuyết</figcaption></figure>
+          <figure><img src="/images/cap-nhi-tan/gallery-friends.jpg" alt="Hai du khách lưu lại khoảnh khắc vui vẻ trong tuyết" loading="lazy" /><figcaption>Niềm vui được sẻ chia</figcaption></figure>
+          <figure><img src="/images/cap-nhi-tan/gallery-snow-play.jpg" alt="Du khách vui chơi giữa khung cảnh tuyết trắng" loading="lazy" /><figcaption>Thỏa sức vui đùa cùng tuyết</figcaption></figure>
+          <figure><img src="/images/cap-nhi-tan/gallery-tubing.jpg" alt="Du khách trải nghiệm trượt phao tuyết" loading="lazy" /><figcaption>Trải nghiệm trượt phao đầy hứng khởi</figcaption></figure>
         </div>
       </section>
 
