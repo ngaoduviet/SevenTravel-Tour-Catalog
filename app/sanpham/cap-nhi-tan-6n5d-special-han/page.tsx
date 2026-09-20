@@ -65,7 +65,7 @@ const itinerary = [
     day: "Ngày 1",
     route: "Hà Nội – Cáp Nhĩ Tân",
     meals: "Suất ăn sân bay",
-    image: "/images/cap-nhi-tan/day-1-harbin-welcome.jpg",
+    image: "/sanpham/cap-nhi-tan-6n5d-special-han/images/day-1-harbin-welcome.jpg",
     content: [
       "15:25, xe và hướng dẫn viên đón đoàn tại điểm hẹn ở Hà Nội, di chuyển ra sân bay Nội Bài.",
       "Đáp chuyến bay thẳng VJ7358 HAN – HRB lúc 19:25–01:00+1. Seven Travel chuẩn bị suất cơm hộp dùng tại sân bay.",
@@ -75,7 +75,7 @@ const itinerary = [
     day: "Ngày 2",
     route: "Cáp Nhĩ Tân – Yabuli – Làng Tuyết",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/day-2-yabuli-ski.jpg",
+    image: "/sanpham/cap-nhi-tan-6n5d-special-han/images/day-2-yabuli-ski.jpg",
     content: [
       "Đến Cáp Nhĩ Tân, làm thủ tục nhập cảnh và về khách sạn nghỉ ngơi trước khi bắt đầu hành trình.",
       "Ghé khu chợ gần Nhà thờ Saint Sophia để tham quan và chuẩn bị thêm trang phục giữ ấm.",
@@ -87,7 +87,7 @@ const itinerary = [
     day: "Ngày 3",
     route: "Tuyết Hương – Xứ cổ tích giữa đời thực",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/snow-village-night.jpg",
+    image: "/sanpham/cap-nhi-tan-6n5d-special-han/images/snow-village-night.jpg",
     content: [
       "Dành trọn ngày tại Làng Tuyết, không di chuyển đường dài: Đài ngắm cảnh núi Bổng Chùy, Bưu điện Hương Tuyết và Phố Tuyết Vận.",
       "Tặng gói chụp ảnh gồm 01 bộ trang phục và 05 ảnh chỉnh sửa chuyên nghiệp.",
@@ -99,7 +99,7 @@ const itinerary = [
     day: "Ngày 4",
     route: "Tuyết Hương – Cáp Nhĩ Tân",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/day-4-saint-sophia.jpg",
+    image: "/sanpham/cap-nhi-tan-6n5d-special-han/images/day-4-saint-sophia.jpg",
     content: [
       "Tham quan Thập Lí Hoạ Lang và khu vườn thú trên núi cao giữa cảnh quan băng giá.",
       "Ngắm Cầu sắt Trung Đông và sông băng Tùng Hoa.",
@@ -111,7 +111,7 @@ const itinerary = [
     day: "Ngày 5",
     route: "Volga Manor – Đại Thế Giới Băng Tuyết",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/harbin-ice-world.jpg",
+    image: "/sanpham/cap-nhi-tan-6n5d-special-han/images/harbin-ice-world.jpg",
     content: [
       "Khám phá Trang viên Volga, thưởng thức đồ ăn nhẹ kiểu Nga và rượu Vodka.",
       "Trải nghiệm trượt phao tuyết từ lâu đài xuống đường tuyết tại Trang viên Volga.",
@@ -123,7 +123,7 @@ const itinerary = [
     day: "Ngày 6 + 1",
     route: "Âm vang phương Bắc – Hà Nội",
     meals: "Sáng · Trưa · Tối",
-    image: "/images/cap-nhi-tan/seven-travel-group.jpg",
+    image: "/sanpham/cap-nhi-tan-6n5d-special-han/images/seven-travel-group.jpg",
     content: [
       "Tham quan Hành lang âm nhạc và Tượng Tuyết nhân khổng lồ khi công trình được hoàn thiện.",
       "Khám phá Phố Trung Hoa Baroque và Bảo tàng Tranh khắc Harbin Pharmaceutical No.6.",
@@ -262,7 +262,7 @@ export default function HarbinSpecialPage() {
 
       <section className={styles.storySection}>
         <div className={styles.storyImage}>
-          <img src="/images/cap-nhi-tan/snow-village-night.jpg" alt="Làng Tuyết Hương rực sáng trong đêm mùa đông" />
+          <img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/snow-village-night.jpg" alt="Làng Tuyết Hương rực sáng trong đêm mùa đông" />
           <span>02 đêm giữa Làng Tuyết Hương</span>
         </div>
         <div className={styles.storyCopy}>
@@ -338,11 +338,11 @@ export default function HarbinSpecialPage() {
           <h2 id="gallery-title">Cáp Nhĩ Tân qua những trải nghiệm thật</h2>
         </div>
         <div className={styles.gallery}>
-          <figure className={styles.galleryWide}><img src="/images/cap-nhi-tan/gallery-group.jpg" alt="Đoàn khách check-in tại Cáp Nhĩ Tân vào mùa đông" loading="lazy" /><figcaption>Hành trình đáng nhớ cùng cả đoàn</figcaption></figure>
-          <figure><img src="/images/cap-nhi-tan/gallery-ice-wheel.jpg" alt="Du khách check-in bên vòng quay và công trình băng tuyết" loading="lazy" /><figcaption>Check-in giữa thế giới băng tuyết</figcaption></figure>
-          <figure><img src="/images/cap-nhi-tan/gallery-friends.jpg" alt="Hai du khách lưu lại khoảnh khắc vui vẻ trong tuyết" loading="lazy" /><figcaption>Niềm vui được sẻ chia</figcaption></figure>
-          <figure><img src="/images/cap-nhi-tan/gallery-snow-play.jpg" alt="Du khách vui chơi giữa khung cảnh tuyết trắng" loading="lazy" /><figcaption>Thỏa sức vui đùa cùng tuyết</figcaption></figure>
-          <figure><img src="/images/cap-nhi-tan/gallery-tubing.jpg" alt="Du khách trải nghiệm trượt phao tuyết" loading="lazy" /><figcaption>Trải nghiệm trượt phao đầy hứng khởi</figcaption></figure>
+          <figure className={styles.galleryWide}><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-group.jpg" alt="Đoàn khách check-in tại Cáp Nhĩ Tân vào mùa đông" loading="lazy" /><figcaption>Hành trình đáng nhớ cùng cả đoàn</figcaption></figure>
+          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-ice-wheel.jpg" alt="Du khách check-in bên vòng quay và công trình băng tuyết" loading="lazy" /><figcaption>Check-in giữa thế giới băng tuyết</figcaption></figure>
+          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-friends.jpg" alt="Hai du khách lưu lại khoảnh khắc vui vẻ trong tuyết" loading="lazy" /><figcaption>Niềm vui được sẻ chia</figcaption></figure>
+          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-snow-play.jpg" alt="Du khách vui chơi giữa khung cảnh tuyết trắng" loading="lazy" /><figcaption>Thỏa sức vui đùa cùng tuyết</figcaption></figure>
+          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-tubing.jpg" alt="Du khách trải nghiệm trượt phao tuyết" loading="lazy" /><figcaption>Trải nghiệm trượt phao đầy hứng khởi</figcaption></figure>
         </div>
       </section>
 
