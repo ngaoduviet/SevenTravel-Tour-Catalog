@@ -55,6 +55,21 @@ Website đang đọc dữ liệu từ bảng **SEVEN TRAVEL – WEBSITE DATA**:
 
 Để đổi sang bảng khác, đặt biến `GOOGLE_SHEET_ID` trong Vercel bằng ID của Google Sheets mới. Nếu không đặt, website sử dụng bảng Seven Travel nêu trên.
 
+## Đồng bộ ảnh khách hàng từ Google Drive
+
+Trang Cáp Nhĩ Tân có block **Cập nhật ảnh của khách hàng**. Website luôn giữ sẵn một bộ ảnh dự phòng trong mã nguồn; khi cấu hình Google Drive API, block này sẽ tự lấy tối đa 30 ảnh mới nhất trong thư mục Drive công khai và làm mới danh sách khoảng mỗi 5 phút.
+
+Thư mục mặc định:
+
+`https://drive.google.com/drive/folders/1_eapOPZ2PuctPus_XouQvMs7eAxPn9wf`
+
+Trong Vercel, vào **Project Settings → Environment Variables** và thêm:
+
+- `GOOGLE_DRIVE_API_KEY`: API key của Google Cloud đã bật **Google Drive API**.
+- `GOOGLE_DRIVE_CUSTOMER_GALLERY_FOLDER_ID`: không bắt buộc; chỉ cần đặt khi muốn đổi sang thư mục khác.
+
+Sau khi thêm biến môi trường, redeploy project một lần. Từ đó nhân sự chỉ cần tải ảnh vào thư mục Drive và đặt quyền chia sẻ **Anyone with the link / Viewer**; không cần sửa code cho từng ảnh mới.
+
 ---
 
 ## Thông tin kỹ thuật của starter

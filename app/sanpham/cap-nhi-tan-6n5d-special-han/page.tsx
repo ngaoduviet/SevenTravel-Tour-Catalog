@@ -22,6 +22,7 @@ import {
   Utensils,
   X,
 } from "lucide-react";
+import CustomerGallery from "./CustomerGallery";
 import styles from "./page.module.css";
 
 const HOTLINE = "0899525777";
@@ -267,7 +268,7 @@ export default function HarbinSpecialPage() {
         </div>
         <div className={styles.storyCopy}>
           <span className={styles.kicker}>ĐIỂM KHÁC BIỆT CỦA HÀNH TRÌNH</span>
-          <h2>Không ghé qua vội vã.<br />Bạn thực sự sống giữa mùa đông.</h2>
+          <h2>Không ghé qua vội vã. Bạn thực sự sống giữa mùa đông.</h2>
           <p>Hành trình dành trọn một ngày không di chuyển đường dài tại Tuyết Hương. Bạn có thời gian ngắm những mái nhà phủ tuyết, dạo Phố Tuyết Vận, chụp ảnh trong trang phục bản địa và cảm nhận nhịp sống ấm áp giữa cái lạnh phương Bắc.</p>
           <ul>
             <li><Check aria-hidden="true" /> Hỗ trợ kéo vali từ điểm trung chuyển về homestay</li>
@@ -283,24 +284,52 @@ export default function HarbinSpecialPage() {
           <h2>6 ngày 5 đêm + 1, gọn nhịp di chuyển</h2>
           <p>Mở từng ngày để xem các điểm tham quan và trải nghiệm chính.</p>
         </div>
-        <div className={styles.itineraryList}>
-          {itinerary.map((item, index) => (
-            <details className={styles.dayCard} key={item.day} open={index === 0}>
-              <summary>
-                <span className={styles.dayNumber}>{item.day}</span>
-                <span className={styles.dayTitle}><strong>{item.route}</strong><small>{item.meals}</small></span>
-                <ChevronDown className={styles.chevron} aria-hidden="true" />
-              </summary>
-              <div className={styles.dayBody}>
-                <div>
-                  {item.content.map((line) => <p key={line}><Check aria-hidden="true" />{line}</p>)}
-                </div>
-                <img src={item.image} alt={`Hình ảnh hành trình ${item.route}`} loading="lazy" />
-              </div>
-            </details>
-          ))}
+        <div className={styles.itineraryLayout}>
+          <div className={styles.itineraryMain}>
+            <div className={styles.itineraryList}>
+              {itinerary.map((item, index) => (
+                <details className={styles.dayCard} key={item.day} open={index === 0}>
+                  <summary>
+                    <span className={styles.dayNumber}>{item.day}</span>
+                    <span className={styles.dayTitle}><strong>{item.route}</strong><small>{item.meals}</small></span>
+                    <ChevronDown className={styles.chevron} aria-hidden="true" />
+                  </summary>
+                  <div className={styles.dayBody}>
+                    <div>
+                      {item.content.map((line) => <p key={line}><Check aria-hidden="true" />{line}</p>)}
+                    </div>
+                    <img src={item.image} alt={`Hình ảnh hành trình ${item.route}`} loading="lazy" />
+                  </div>
+                </details>
+              ))}
+            </div>
+            <p className={styles.scheduleNote}>Thứ tự tham quan có thể điều chỉnh theo điều kiện thực tế nhưng vẫn đảm bảo các điểm và dịch vụ chính của chương trình.</p>
+          </div>
+
+          <aside className={styles.itineraryOffer} aria-label="Giá và đặt tour Cáp Nhĩ Tân">
+            <span className={styles.offerBadge}>Tour no shopping · Bay thẳng</span>
+            <h3>Cáp Nhĩ Tân 6N5Đ Special</h3>
+            <div className={styles.offerPrice}>
+              <span>Giá trọn gói từ</span>
+              <strong>37.990.000đ</strong>
+              <small>/khách</small>
+            </div>
+            <ul className={styles.offerFacts}>
+              <li><Clock3 aria-hidden="true" /><span>Thời gian<strong>6 ngày 5 đêm + 1</strong></span></li>
+              <li><MapPin aria-hidden="true" /><span>Khởi hành<strong>Hà Nội</strong></span></li>
+              <li><Plane aria-hidden="true" /><span>Di chuyển<strong>Bay thẳng Vietjet</strong></span></li>
+              <li><CalendarDays aria-hidden="true" /><span>Lịch gần nhất<strong>13/12 · 18/12 · 20/12</strong></span></li>
+            </ul>
+            <a className={styles.offerButton} href={`https://zalo.me/${HOTLINE}`} target="_blank" rel="noreferrer">
+              <MessageCircle aria-hidden="true" />
+              <span><strong>ĐẶT NGAY</strong><small>Giữ chỗ trước — xác nhận sau</small></span>
+            </a>
+            <a className={styles.offerHotline} href={`tel:${HOTLINE}`}>
+              <Phone aria-hidden="true" />
+              <span>Hotline tư vấn<strong>{DISPLAY_HOTLINE}</strong></span>
+            </a>
+          </aside>
         </div>
-        <p className={styles.scheduleNote}>Thứ tự tham quan có thể điều chỉnh theo điều kiện thực tế nhưng vẫn đảm bảo các điểm và dịch vụ chính của chương trình.</p>
       </section>
 
       <section className={styles.priceSection} id="gia-tour">
@@ -332,19 +361,7 @@ export default function HarbinSpecialPage() {
         </div>
       </section>
 
-      <section className={styles.gallerySection} aria-labelledby="gallery-title">
-        <div className={styles.galleryHeading}>
-          <span>Khoảnh khắc mùa đông</span>
-          <h2 id="gallery-title">Cáp Nhĩ Tân qua những trải nghiệm thật</h2>
-        </div>
-        <div className={styles.gallery}>
-          <figure className={styles.galleryWide}><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-group.jpg" alt="Đoàn khách check-in tại Cáp Nhĩ Tân vào mùa đông" loading="lazy" /><figcaption>Hành trình đáng nhớ cùng cả đoàn</figcaption></figure>
-          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-ice-wheel.jpg" alt="Du khách check-in bên vòng quay và công trình băng tuyết" loading="lazy" /><figcaption>Check-in giữa thế giới băng tuyết</figcaption></figure>
-          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-friends.jpg" alt="Hai du khách lưu lại khoảnh khắc vui vẻ trong tuyết" loading="lazy" /><figcaption>Niềm vui được sẻ chia</figcaption></figure>
-          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-snow-play.jpg" alt="Du khách vui chơi giữa khung cảnh tuyết trắng" loading="lazy" /><figcaption>Thỏa sức vui đùa cùng tuyết</figcaption></figure>
-          <figure><img src="/sanpham/cap-nhi-tan-6n5d-special-han/images/gallery-tubing.jpg" alt="Du khách trải nghiệm trượt phao tuyết" loading="lazy" /><figcaption>Trải nghiệm trượt phao đầy hứng khởi</figcaption></figure>
-        </div>
-      </section>
+      <CustomerGallery />
 
       <section className={styles.servicesSection} id="dich-vu">
         <div className={styles.sectionHeading}>
